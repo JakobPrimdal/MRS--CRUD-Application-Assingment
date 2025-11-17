@@ -8,7 +8,6 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
-.config/database.settings
 *.iws
 *.iml
 *.ipr
@@ -37,3 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+/config/database.settings
