@@ -6,6 +6,7 @@ import java.util.List;
 // Project imports
 import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.BLL.util.MovieSearcher;
+import dk.easv.mrs.DAL.DB.MovieDAO_DB;
 import dk.easv.mrs.DAL.IMovieDataAccess;
 import dk.easv.mrs.DAL.MovieDAO_File;
 
@@ -16,7 +17,8 @@ public class MovieManager {
     private IMovieDataAccess movieDAO;
 
     public MovieManager() {
-        movieDAO = new MovieDAO_File();
+        movieDAO = new MovieDAO_DB();
+        //movieDAO = new MovieDAO_File();
     } // Sets the class the data comes from (Standard from MovieDAO_Mock
 
     /**
@@ -38,6 +40,11 @@ public class MovieManager {
         return searchResult;
     }
 
+    /**
+     * Method for creating a movie down through the layers
+     * @param newMovie
+     * @return
+     */
     public Movie createMovie(Movie newMovie){
         try {
             Movie movieCreated = movieDAO.createMovie(newMovie);
@@ -48,10 +55,20 @@ public class MovieManager {
         }
     }
 
+    /**
+     * Method for updating a movie down through the layers
+     * @param movieToBeUpdated
+     * @throws Exception
+     */
     public void updateMovie(Movie movieToBeUpdated) throws Exception {
         movieDAO.updateMovie(movieToBeUpdated);
     }
 
+    /**
+     *  Method for deleting a movie down through the layers
+     * @param selectedMovie
+     * @throws Exception
+     */
     public void deleteMovie(Movie selectedMovie) throws Exception {
         movieDAO.deleteMovie(selectedMovie);
     }

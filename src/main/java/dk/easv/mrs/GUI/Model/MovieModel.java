@@ -41,12 +41,22 @@ public class MovieModel {
         moviesToBeViewed.addAll(searchResults);
     }
 
+    /**
+     * Method for creating a movie down through the layers
+     * @param newMovie
+     * @return
+     */
     public Movie createMovie(Movie newMovie) {
         Movie movieCreated = movieManager.createMovie(newMovie);
         getObservableMovies().add(movieCreated);
         return movieCreated;
     }
 
+    /**
+     * Method for updating a movie down through the layers
+     * @param movieToBeUpdated
+     * @throws Exception
+     */
     public void updateMovie(Movie movieToBeUpdated) throws Exception {
         // update movie in DAL layer (Through the layers)
         movieManager.updateMovie(movieToBeUpdated);
@@ -55,6 +65,11 @@ public class MovieModel {
         moviesToBeViewed.set(index, movieToBeUpdated);
     }
 
+    /**
+     * Method for deleting a movie down through the layers
+     * @param selectedMovie
+     * @throws Exception
+     */
     public void deleteMovie(Movie selectedMovie) throws Exception {
         // Removes movie in DAL layer (through the layers)
         movieManager.deleteMovie(selectedMovie);

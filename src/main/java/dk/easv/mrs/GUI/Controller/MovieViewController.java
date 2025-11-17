@@ -1,7 +1,6 @@
 package dk.easv.mrs.GUI.Controller;
 
 // Java imports
-import com.sun.jdi.IntegerValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,8 +32,13 @@ public class MovieViewController implements Initializable {
     private int movieYear;
 
 
-    public MovieViewController() throws Exception {
-        movieModel = new MovieModel();
+    public MovieViewController() {
+        try {
+            movieModel = new MovieModel();
+        } catch (Exception e) {
+            displayError(e);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -86,6 +90,10 @@ public class MovieViewController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     *  Event handler for handling the action of adding a movie through all layers
+     * @param actionEvent
+     */
     @FXML
     private void btnAddMovie(ActionEvent actionEvent) {
         String[] input = txtfieldNewMovie.getText().split(",");
@@ -101,6 +109,10 @@ public class MovieViewController implements Initializable {
 
     }
 
+    /**
+     * Event handler to handle updating a movie through all layers
+     * @param actionEvent
+     */
     @FXML
     private void btnUpdate(ActionEvent actionEvent) {
         String[] updatedMovie = txtfieldNewMovie.getText().split(",");
@@ -126,6 +138,10 @@ public class MovieViewController implements Initializable {
 
     }
 
+    /**
+     *  Event handler for handling deleting a movie through all layers
+     * @param actionEvent
+     */
     @FXML
     private void btnDelete(ActionEvent actionEvent){
         Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();

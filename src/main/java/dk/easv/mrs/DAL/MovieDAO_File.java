@@ -75,7 +75,7 @@ public class MovieDAO_File implements IMovieDataAccess {
     }
 
     /**
-     * Updates movie
+     * Updates a movie
      * @param movie
      * @throws Exception
      */
@@ -120,13 +120,16 @@ public class MovieDAO_File implements IMovieDataAccess {
             Files.deleteIfExists(tempPathFile);
 
         } catch (IOException e) {
-            e.printStackTrace();
+
+            // Log error to future devs to handle it
+
+
             throw new Exception("An error occurred");
         }
     }
 
     /**
-     * Deletes Movie
+     * Deletes a Movie
      * @param movie
      * @throws Exception
      */
