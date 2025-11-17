@@ -6,10 +6,7 @@ import dk.easv.mrs.DAL.IMovieDataAccess;
 
 // Java imports
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,11 +54,47 @@ public class MovieDAO_DB implements IMovieDataAccess {
         }
     }
 
-    public Movie createMovie(Movie newMovie) {
-        return newMovie;
+    public Movie createMovie(Movie newMovie) throws Exception{
+        String sql = "INSERT INTO dbo.Movie (Title, Year) VALUES (?,?);";
+
+        try (Connection connection = databaseConnector.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            // Bind parameters
+            stmt.setString(1, newMovie.getTitle());
+            stmt.setInt(2, newMovie.getYear());
+
+            // Run the specified SQL statement
+            stmt.executeUpdate();
+
+            // Get the generated ID from DB
+            ResultSet rs = stmt.getGeneratedKeys();
+            int id = -1;
+
+            if (rs.next())
+                id = rs.getInt(1);
+
+            // Create movie object and send up the layers
+            Movie createdMovie = new Movie(id, newMovie.getYear(), newMovie.getTitle());
+
+            return createdMovie;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not create movie", ex);
+        }
+
     }
 
     public void updateMovie(Movie movie) {
+
+        try {
+            for (Movie m : getAllMovies()) {
+                if (movie.getId() == m.getId()) {
+
+                }
+
+            }
+        }
 
     }
 
