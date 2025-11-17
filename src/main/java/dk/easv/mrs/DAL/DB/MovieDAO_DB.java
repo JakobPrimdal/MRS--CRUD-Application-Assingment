@@ -85,21 +85,38 @@ public class MovieDAO_DB implements IMovieDataAccess {
 
     }
 
-    public void updateMovie(Movie movie) {
+    public void updateMovie(Movie movie) throws Exception{
 
-        try {
-            for (Movie m : getAllMovies()) {
-                if (movie.getId() == m.getId()) {
+        try (Connection connection = databaseConnector.getConnection()) {
+            String sql = "UPDATE Movie SET Title = ?, Year = ? WHERE Id = ?";
 
-                }
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, movie.getTitle());
+                statement.setInt(2, movie.getYear());
+                statement.setInt(3, movie.getId());
 
+                statement.executeUpdate();
             }
+
+        }
+        catch (SQLException ex) {
+            throw new Exception("Could not update movie", ex);
         }
 
     }
 
-    public void deleteMovie(Movie movie) {
+    public void deleteMovie(Movie movie) throws Exception{
+        try (Connection connection = databaseConnector.getConnection()) {
+            String sql = "DELETE FROM Movie WHERE Id = ?";
 
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, movie.getId());
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Could not delete Movie", ex);
+        }
     }
 
 
