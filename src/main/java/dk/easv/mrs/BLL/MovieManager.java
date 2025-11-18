@@ -8,7 +8,6 @@ import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.BLL.util.MovieSearcher;
 import dk.easv.mrs.DAL.DB.MovieDAO_DB;
 import dk.easv.mrs.DAL.IMovieDataAccess;
-import dk.easv.mrs.DAL.MovieDAO_File;
 
 
 public class MovieManager {

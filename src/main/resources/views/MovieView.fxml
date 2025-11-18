@@ -22,7 +22,8 @@
             <Label fx:id="lblTotalMovies" text="Total Movies: " />
          </children>
       </HBox>
-      <Button layoutX="262.0" layoutY="54.0" mnemonicParsing="false" onAction="#btnUpdate" text="Update" />
-      <Button layoutX="326.0" layoutY="54.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="26.0" prefWidth="106.0" text="Delete movie" />
+      <Button layoutX="210.0" layoutY="54.0" mnemonicParsing="false" onAction="#btnUpdate" prefHeight="25.0" prefWidth="107.0" text="Update movie" />
+      <Button layoutX="324.0" layoutY="54.0" mnemonicParsing="false" onAction="#btnDelete" prefHeight="25.0" prefWidth="107.0" text="Delete movie" />
+      <Button layoutX="12.0" layoutY="54.0" mnemonicParsing="false" onAction="#btnSeeRatings" text="See ratings" />
    </children>
 </AnchorPane>

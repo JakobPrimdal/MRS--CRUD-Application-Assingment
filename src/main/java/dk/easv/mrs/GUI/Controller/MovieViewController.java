@@ -3,17 +3,23 @@ package dk.easv.mrs.GUI.Controller;
 // Java imports
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 // Project imports
 import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.GUI.Model.MovieModel;
+import dk.easv.mrs.GUI.Model.RatingModel;
 
 
 public class MovieViewController implements Initializable {
@@ -28,6 +34,8 @@ public class MovieViewController implements Initializable {
     private ListView<Movie> lstMovies;
 
     private MovieModel movieModel;
+    private RatingModel ratingModel;
+    //private RatingsViewController ratingsViewController;
     private String movieTitle;
     private int movieYear;
 
@@ -35,6 +43,8 @@ public class MovieViewController implements Initializable {
     public MovieViewController() {
         try {
             movieModel = new MovieModel();
+            ratingModel = new RatingModel();
+            //ratingsViewController = new RatingsViewController();
         } catch (Exception e) {
             displayError(e);
             e.printStackTrace();
@@ -155,4 +165,41 @@ public class MovieViewController implements Initializable {
             }
         }
     }
+
+    /**
+     *  Event handler for handling the action of seeing the ratings of a specified movie
+     * @param actionEvent
+     * @throws Exception
+     */
+    @FXML
+    private void btnSeeRatings(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/RatingView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Ratings");
+            stage.setScene(scene);
+
+            //stage.initModality(Modality.APPLICATION_MODAL); // Does do that only one instance of the window can be open at a time
+            stage.show();
+
+            // Call fill method through the instance of the fxmlLoader's controller
+            RatingsViewController controller = fxmlLoader.getController();
+            controller.fillListView(getSelectedMovie());
+        } catch (Exception err) {
+            displayError(err);
+        }
+
+    }
+
+    public Movie getSelectedMovie() {
+        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        return selectedMovie;
+    }
+
+
+
+
+
+
 }

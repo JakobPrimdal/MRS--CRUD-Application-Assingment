@@ -7,7 +7,6 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 // Java imports
 import java.io.*;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBConnector {
