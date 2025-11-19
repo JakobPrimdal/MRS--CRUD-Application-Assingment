@@ -6,10 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -31,11 +29,14 @@ public class MovieViewController implements Initializable {
     @FXML
     private TextField txtMovieSearch;
     @FXML
-    private ListView<Movie> lstMovies;
+    private TableView<Movie> tblMovies;
+    @FXML
+    private TableColumn<Movie, String> colTitle;
+    @FXML
+    private TableColumn<Movie, Integer> colYear;
 
     private MovieModel movieModel;
     private RatingModel ratingModel;
-    //private RatingsViewController ratingsViewController;
     private String movieTitle;
     private int movieYear;
 
@@ -44,7 +45,6 @@ public class MovieViewController implements Initializable {
         try {
             movieModel = new MovieModel();
             ratingModel = new RatingModel();
-            //ratingsViewController = new RatingsViewController();
         } catch (Exception e) {
             displayError(e);
             e.printStackTrace();
@@ -66,10 +66,14 @@ public class MovieViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        lstMovies.setItems(movieModel.getObservableMovies());
-        lblTotalMovies.setText("Total Movies: "+lstMovies.getItems().size());
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
 
-        lstMovies.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, selectedMovie) ->
+        tblMovies.setItems(movieModel.getObservableMovies());
+
+        lblTotalMovies.setText("Total Movies: "+tblMovies.getItems().size());
+
+        tblMovies.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, selectedMovie) ->
         {
             if (selectedMovie != null) {
                 txtfieldNewMovie.setText(selectedMovie.getTitle() + ", " + selectedMovie.getYear());
@@ -79,7 +83,7 @@ public class MovieViewController implements Initializable {
         txtMovieSearch.textProperty().addListener((observableValue, oldValue, newValue) -> {
             try {
                 movieModel.searchMovie(newValue);
-                lblTotalMovies.setText("Total Movies: "+lstMovies.getItems().size());
+                lblTotalMovies.setText("Total Movies: "+tblMovies.getItems().size());
             } catch (Exception e) {
                 displayError(e);
                 e.printStackTrace();
@@ -114,8 +118,6 @@ public class MovieViewController implements Initializable {
         Movie movieCreated = new Movie(-1, movieYear, movieTitle);
         movieModel.createMovie(movieCreated);
 
-        //movieModel.createMovie(movieTitle, movieYear);
-
 
     }
 
@@ -129,7 +131,7 @@ public class MovieViewController implements Initializable {
         String updatedTitle = updatedMovie[0];
         int updatedYear = Integer.valueOf(updatedMovie[1].trim());
 
-        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
 
         if (selectedMovie != null) {
             // Update title and year based on textField input
@@ -154,7 +156,7 @@ public class MovieViewController implements Initializable {
      */
     @FXML
     private void btnDelete(ActionEvent actionEvent){
-        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
 
         if (selectedMovie != null) {
             try {
@@ -183,7 +185,7 @@ public class MovieViewController implements Initializable {
             //stage.initModality(Modality.APPLICATION_MODAL); // Does do that only one instance of the window can be open at a time
             stage.show();
 
-            // Call fill method through the instance of the fxmlLoader's controller
+            // Call fill-method through the instance of the fxmlLoader's controller
             RatingsViewController controller = fxmlLoader.getController();
             controller.fillListView(getSelectedMovie());
         } catch (Exception err) {
@@ -193,7 +195,7 @@ public class MovieViewController implements Initializable {
     }
 
     public Movie getSelectedMovie() {
-        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
         return selectedMovie;
     }
 
